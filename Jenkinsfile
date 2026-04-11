@@ -3,32 +3,15 @@ pipeline {
 
     stages {
 
-        stage('Setup Python Env') {
+        stage('Build Docker Image') {
             steps {
-                sh '''
-                python3 -m venv venv
-                . venv/bin/activate
-                pip install --upgrade pip
-                pip install -r requirements.txt
-                '''
+                sh 'docker build -t mlops-app .'
             }
         }
 
-        stage('Train Model') {
+        stage('Run Container') {
             steps {
-                sh '''
-                . venv/bin/activate
-                python train.py
-                '''
-            }
-        }
-
-        stage('Run Prediction') {
-            steps {
-                sh '''
-                . venv/bin/activate
-                python app.py
-                '''
+                sh 'docker run mlops-app'
             }
         }
     }
