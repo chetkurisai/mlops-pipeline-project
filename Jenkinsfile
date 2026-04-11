@@ -3,13 +3,19 @@ pipeline {
 
     stages {
 
-        stage('Run Test') {
+        stage('Install Dependencies') {
             steps {
-                sh 'python3 test_app.py'
+                sh 'pip3 install -r requirements.txt'
             }
         }
 
-        stage('Run App') {
+        stage('Train Model') {
+            steps {
+                sh 'python3 train.py'
+            }
+        }
+
+        stage('Run Prediction') {
             steps {
                 sh 'python3 app.py'
             }
