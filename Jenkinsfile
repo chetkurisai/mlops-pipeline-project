@@ -3,21 +3,32 @@ pipeline {
 
     stages {
 
-        stage('Install Dependencies') {
+        stage('Setup Python Env') {
             steps {
-                sh 'pip3 install -r requirements.txt'
+                sh '''
+                python3 -m venv venv
+                . venv/bin/activate
+                pip install --upgrade pip
+                pip install -r requirements.txt
+                '''
             }
         }
 
         stage('Train Model') {
             steps {
-                sh 'python3 train.py'
+                sh '''
+                . venv/bin/activate
+                python train.py
+                '''
             }
         }
 
         stage('Run Prediction') {
             steps {
-                sh 'python3 app.py'
+                sh '''
+                . venv/bin/activate
+                python app.py
+                '''
             }
         }
     }
