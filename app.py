@@ -1,4 +1,6 @@
-def add(a, b):
-    return a + b
+import joblib
 
-print("Result:", add(5, 3))
+model = joblib.load("model.pkl")
+
+pred = model.predict([[5]])
+print("Prediction:", pred[0])
